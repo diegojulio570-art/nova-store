@@ -4,22 +4,27 @@
   <title>NOVA Store</title>
   <style>
     body {
+      margin: 0;
+      font-family: Arial;
       background: #000;
       color: #fff;
-      font-family: Arial;
-      margin: 0;
     }
 
     header {
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
       padding: 20px;
-      font-size: 30px;
+      font-size: 24px;
       font-weight: bold;
+    }
+
+    .cart-btn {
+      cursor: pointer;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       padding: 20px;
     }
@@ -28,7 +33,11 @@
       background: #111;
       padding: 15px;
       border-radius: 10px;
-      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
     }
 
     .card img {
@@ -43,81 +52,114 @@
       background: white;
       color: black;
       cursor: pointer;
+      width: 100%;
       font-weight: bold;
     }
 
     .cart {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      right: -300px;
+      top: 0;
+      width: 300px;
+      height: 100%;
       background: #111;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 20px;
+      transition: 0.3s;
+      overflow-y: auto;
+    }
+
+    .cart.active {
+      right: 0;
+    }
+
+    .cart-item {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
     }
   </style>
 </head>
 
 <body>
 
-<header>NOVA</header>
+<header>
+  NOVA
+  <div class="cart-btn" onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
+</header>
 
-<div class="cart">
-  🛒 Carrello: <span id="cart-count">0</span>
-</div>
+<div class="products" id="products"></div>
 
-<div class="products">
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Glitch Core Tee</h3>
-    <p>25€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Broken Statue Tee</h3>
-    <p>25€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Void Eye Tee</h3>
-    <p>25€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Chaos Smile Tee</h3>
-    <p>25€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Core Shorts</h3>
-    <p>30€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <h3>Glitch Shorts</h3>
-    <p>30€</p>
-    <button onclick="addToCart()">Aggiungi</button>
-  </div>
-
+<div class="cart" id="cart">
+  <h2>Carrello</h2>
+  <div id="cart-items"></div>
+  <h3>Totale: €<span id="total">0</span></h3>
 </div>
 
 <script>
-  let count = 0;
+const products = [
+  {name: "Glitch Core Tee", price: 25, img: "https://picsum.photos/300?1"},
+  {name: "Broken Statue Tee", price: 25, img: "https://picsum.photos/300?2"},
+  {name: "Void Eye Tee", price: 25, img: "https://picsum.photos/300?3"},
+  {name: "Chaos Smile Tee", price: 25, img: "https://picsum.photos/300?4"},
+  {name: "Core Shorts", price: 30, img: "https://picsum.photos/300?5"},
+  {name: "Glitch Shorts", price: 30, img: "https://picsum.photos/300?6"}
+];
 
-  function addToCart() {
-    count++;
-    document.getElementById("cart-count").innerText = count;
-  }
+let cart = [];
+
+function renderProducts() {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+
+  products.forEach((p, i) => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p>€${p.price}</p>
+        <button onclick="addToCart(${i})">Aggiungi</button>
+      </div>
+    `;
+  });
+}
+
+function addToCart(i) {
+  cart.push(products[i]);
+  updateCart();
+}
+
+function updateCart() {
+  document.getElementById("count").innerText = cart.length;
+
+  const cartItems = document.getElementById("cart-items");
+  cartItems.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        ${item.name} - €${item.price}
+        <button onclick="removeItem(${index})">X</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("total").innerText = total;
+}
+
+function removeItem(i) {
+  cart.splice(i, 1);
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById("cart").classList.toggle("active");
+}
+
+renderProducts();
 </script>
 
 </body>
