@@ -1,27 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NOVA</title>
+  <title>NOVA Store</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial;
+      margin: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #111;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      background: white;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #111;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 
-<body style="background:black; color:white; font-family:sans-serif; text-align:center;">
+<body>
 
-  <h1>NOVA</h1>
-  <p>Il tuo brand è online 🔥</p>
+<header>NOVA</header>
 
-  <div style="margin-top:40px;">
-    <h2>Prodotti</h2>
+<div class="cart">
+  🛒 Carrello: <span id="cart-count">0</span>
+</div>
 
-    <p>Glitch Core Tee - 25€</p>
-    <p>Broken Statue Tee - 25€</p>
-    <p>Void Eye Tee - 25€</p>
-    <p>Chaos Smile Tee - 25€</p>
-    <p>Cosmic Burst Tee - 25€</p>
-    <p>Neon Skull Tee - 25€</p>
-    <p>Urban Spray Tee - 25€</p>
-    <p>Future Human Tee - 25€</p>
+<div class="products">
 
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Glitch Core Tee</h3>
+    <p>25€</p>
+    <button onclick="addToCart()">Aggiungi</button>
   </div>
 
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Broken Statue Tee</h3>
+    <p>25€</p>
+    <button onclick="addToCart()">Aggiungi</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Void Eye Tee</h3>
+    <p>25€</p>
+    <button onclick="addToCart()">Aggiungi</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Chaos Smile Tee</h3>
+    <p>25€</p>
+    <button onclick="addToCart()">Aggiungi</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Core Shorts</h3>
+    <p>30€</p>
+    <button onclick="addToCart()">Aggiungi</button>
+  </div>
+
+  <div class="card">
+    <img src="https://via.placeholder.com/200">
+    <h3>Glitch Shorts</h3>
+    <p>30€</p>
+    <button onclick="addToCart()">Aggiungi</button>
+  </div>
+
+</div>
+
+<script>
+  let count = 0;
+
+  function addToCart() {
+    count++;
+    document.getElementById("cart-count").innerText = count;
+  }
+</script>
+
 </body>
-</html>update site
+</html>
